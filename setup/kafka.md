@@ -1,38 +1,14 @@
-# Kafka Setup
-
 ## Download the data community package
 
 ```bash
 curl -O https://packages.confluent.io/archive/7.7/confluent-community-7.7.0.zip
-```
 
----
-
-## Unzip & move
-
-```bash
-unzip confluent-community-7.7.0.zip
-```
-
-```bash
-sudo mv confluent-7.7.0/ /opt/
-```
-
----
-
-## Set environment variables
-
-```bash
 vim ~/.bashrc
-```
 
-```bash
 # add these in the end of the file
 export CONFLUENT_HOME=/opt/confluent-7.7.0
 export PATH=$PATH:$CONFLUENT_HOME/bin
-```
 
-```bash
 source ~/.bashrc
 ```
 
@@ -68,13 +44,9 @@ vim ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
 
 ```bash
 zookeeper-server-start ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties
-```
 
-```bash
 kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties
-```
 
-```bash
 schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
 ```
 

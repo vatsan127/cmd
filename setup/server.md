@@ -1,97 +1,73 @@
-# Server Setup
+### Install `.deb` Packages (Debian-based)
 
-## Install Packages
-
-```bash
-# Debian
+```sh
 sudo dpkg -i <package_name>.deb
 ```
 
-```bash
-# using alien RPM
+### Install `.rpm` Packages using `alien`
+
+```sh
 sudo apt install alien
-sudo alien -i tabby-1.0.207-linux-x64.rpm
+sudo alien -i <package_name>.rpm
 ```
 
-## Java
+---
 
-```bash
+## Download Java (Oracle JDK 17)
+
+```sh
 wget https://download.oracle.com/java/17/archive/jdk-17.0.12_linux-x64_bin.deb
-```
 
-```bash
-sudo apt install jdk-17.0.12_linux-x64_bin.deb
-```
+sudo apt install ./jdk-17.0.12_linux-x64_bin.deb
 
-```bash
 java --version
 ```
 
 ---
 
-## Maven
+## Download Maven
 
-```bash
+```sh
 wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
-```
 
-```bash
 tar -xvf apache-maven-3.9.9-bin.tar.gz
-```
-
-```bash
 sudo mv apache-maven-3.9.9 /opt/
 ```
 
-```bash
+## Configure Environment Variables
+
+```sh
 vim ~/.bashrc
-```
 
-```bash
-M2_HOME='/opt/apache-maven-3.9.9'
-PATH="$M2_HOME/bin:$PATH"
-```
+export M2_HOME='/opt/apache-maven-3.9.9'
+export PATH="$M2_HOME/bin:$PATH"
 
-```bash
 source ~/.bashrc
 ```
 
 ---
 
-## Git
+## Install Git
 
-```bash
+```sh
 sudo apt install git-all
-```
 
-```bash
 git --version
 ```
 
 ---
 
-## Docker
+## Download & Install Docker
 
-```bash
+```sh
 curl -fsSL https://get.docker.com -o get-docker.sh
-```
-
-```bash
 sudo sh get-docker.sh
-```
 
-```bash
 sudo usermod -aG docker $USER
-```
-
-```bash
 newgrp docker
-```
 
-```bash
 sudo systemctl enable docker
-```
+sudo systemctl start docker
 
-```bash
 sudo systemctl status docker
 ```
