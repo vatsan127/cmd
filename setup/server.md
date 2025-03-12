@@ -13,7 +13,7 @@ sudo alien -i <package_name>.rpm
 
 ---
 
-## Download Java (Oracle JDK 17)
+## Install Java (Oracle JDK 17)
 
 ```sh
 wget https://download.oracle.com/java/17/archive/jdk-17.0.12_linux-x64_bin.deb
@@ -25,7 +25,7 @@ java --version
 
 ---
 
-## Download Maven
+## Install Maven
 
 ```sh
 wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
@@ -33,8 +33,6 @@ wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bi
 tar -xvf apache-maven-3.9.9-bin.tar.gz
 sudo mv apache-maven-3.9.9 /opt/
 ```
-
-## Configure Environment Variables
 
 ```sh
 vim ~/.bashrc

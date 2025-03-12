@@ -1,4 +1,4 @@
-## Download the data community package
+## Install Confluent Kafka 7.7.0
 
 ```bash
 curl -O https://packages.confluent.io/archive/7.7/confluent-community-7.7.0.zip
