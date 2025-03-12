@@ -13,7 +13,7 @@ sudo alien -i <package_name>.rpm
 
 ---
 
-## Install Java (Oracle JDK 17)
+### Install Java (Oracle JDK 17)
 
 ```sh
 wget https://download.oracle.com/java/17/archive/jdk-17.0.12_linux-x64_bin.deb
@@ -25,7 +25,7 @@ java --version
 
 ---
 
-## Install Maven
+### Install Maven
 
 ```sh
 wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
@@ -45,7 +45,7 @@ source ~/.bashrc
 
 ---
 
-## Install Git
+### Install Git
 
 ```sh
 sudo apt install git-all
@@ -55,7 +55,7 @@ git --version
 
 ---
 
-## Download & Install Docker
+### Install Docker
 
 ```sh
 curl -fsSL https://get.docker.com -o get-docker.sh
