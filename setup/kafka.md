@@ -2,7 +2,17 @@
 
 ```bash
 curl -O https://packages.confluent.io/archive/7.7/confluent-community-7.7.0.zip
+```
 
+```bash
+unzip confluent-community-7.7.0.zip
+```
+
+```bash
+sudo mv confluent-7.7.0/ /opt/
+```
+
+```bash
 vim ~/.bashrc
 
 # add these in the end of the file
