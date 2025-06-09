@@ -33,10 +33,3 @@ select * from employees.department_employee de ;
 select * from employees.department_manager dm ;
 select * from employees.salary s ;
 select * from employees.title t ;
-
-## Http Request
--- get EmployeeById
-localhost:8080/employee/v2/employee/10001
-
--- get all employees by page
-http://localhost:8080/employee/v2/employee/all?page=1&size=5
