@@ -1,0 +1,42 @@
+psql -h localhost -p 5432 -U postgres -d employee
+psql -U postgres -d employee
+
+## psql cmd
+\l show db
+\c change db
+\d show tables
+\q exit psql
+\dt <schema-name>.* -- get all tables from a schema
+\ds <schema-name>.* -- get all schema from a schema
+
+## Database SetUp
+CREATE DATABASE employees;
+\c employees
+CREATE SCHEMA employees;
+
+wget https://raw.githubusercontent.com/neondatabase/postgres-sample-dbs/main/employees.sql.gz
+
+pg_restore -d postgresql://[user]:[password]@[neon_hostname]/employees -Fc employees.sql.gz -c -v --no-owner --no-privileges
+
+pg_restore -d postgresql://postgres:password@localhost/employees -Fc employees.sql.gz -c -v --no-owner --no-privileges
+
+-- get all table details present in the schema
+SELECT * FROM information_schema.tables
+WHERE table_schema = 'employees' AND table_type = 'BASE TABLE';
+
+SELECT * FROM pg_catalog.pg_tables WHERE schemaname = 'employees';
+
+## tables present
+select * from employees.employee e ;
+select * from employees.department d ;
+select * from employees.department_employee de ;
+select * from employees.department_manager dm ;
+select * from employees.salary s ;
+select * from employees.title t ;
+
+## Http Request
+-- get EmployeeById
+localhost:8080/employee/v2/employee/10001
+
+-- get all employees by page
+http://localhost:8080/employee/v2/employee/all?page=1&size=5
