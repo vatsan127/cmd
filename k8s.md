@@ -363,3 +363,26 @@ kubectl port-forward <POD_NAME> <FORWARD_PORT>:<ACTUAL_PORT>
 ```
 
 ----
+
+## Minikube Commands
+
+```
+minikube start --nodes 2 -p local-cluster --driver=docker
+```
+
+```
+minikube status -p local-cluster
+```
+
+```
+minikube node add --worker -p local-cluster
+```
+
+```
+minikube node delete <NODE_NAME> -p local-cluster
+```
+
+```
+minikube dashboard --url -p local-cluster
+```
+----
