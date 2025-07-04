@@ -28,16 +28,15 @@ java --version
 ### Install Maven
 
 ```sh
-wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
+wget https://dlcdn.apache.org/maven/maven-3/3.9.10/binaries/apache-maven-3.9.10-bin.tar.gz
 
-tar -xvf apache-maven-3.9.9-bin.tar.gz
-sudo mv apache-maven-3.9.9 /opt/
-```
+tar xvf apache-maven-3.9.10-src.tar.gz
+sudo mv apache-maven-3.9.10 /opt/
 
-```sh
+
 vim ~/.bashrc
 
-export M2_HOME='/opt/apache-maven-3.9.9'
+export M2_HOME='/opt/apache-maven-3.9.10'
 export PATH="$M2_HOME/bin:$PATH"
 
 source ~/.bashrc
