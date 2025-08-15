@@ -103,6 +103,8 @@ git config --global --unset alias.alias_name
 Alias created Locally
 
 ```
+git config --global user.email "vatsan127@gmail.com" && 
+git config --global user.name "vatsan127" && 
 git config --global alias.st "status" &&
 git config --global alias.co "checkout" &&
 git config --global alias.get "pull origin" &&
