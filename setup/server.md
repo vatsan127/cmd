@@ -13,7 +13,7 @@ sudo alien -i <package_name>.rpm
 
 ---
 
-### Install Java (Oracle JDK 17)
+### Install Java (Oracle JDK 21)
 
 ```sh
 wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
@@ -99,7 +99,7 @@ sudo apt -y install postgresql-17
 
 ```
 sudo -i -u postgres
-psql -d
+psql -d postgres
 CREATE ROLE steve WITH LOGIN SUPERUSER PASSWORD 'password';
 ```
 

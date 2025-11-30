@@ -60,6 +60,16 @@ kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties
 schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
 ```
 
+```bash
+vim ~/.bashrc
+
+alias zookeeper-start='zookeeper-server-start ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties'
+alias kafka-start='kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties'
+alias schema-registry-start='schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties'
+
+source ~/.bashrc
+```
+
 ---
 
 ## Systemctl Service
