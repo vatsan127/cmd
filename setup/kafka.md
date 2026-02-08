@@ -26,20 +26,19 @@ source ~/.bashrc
 
 ## Properties
 
-1. Zookeeper Properties
+1. Kafka KRaft Properties
 
 ```bash
-vim ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties
-```
-
-1. Kafka Properties
-
-```bash
-vim ${CONFLUENT_HOME}/etc/kafka/server.properties
+vim ${CONFLUENT_HOME}/etc/kafka/kraft/server.properties
 
 # add these properties
-listeners=PLAINTEXT://:9092
+process.roles=broker,controller
+node.id=1
+controller.quorum.voters=1@localhost:9093
+controller.listener.names=CONTROLLER
+listeners=PLAINTEXT://:9092,CONTROLLER://:9093
 advertised.listeners=PLAINTEXT://<Internal-IP>:9092
+log.dirs=/tmp/kraft-combined-logs
 ```
 
 1. Schema Registry Properties
@@ -50,12 +49,22 @@ vim ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
 
 ---
 
+## Format KRaft Storage
+
+```bash
+export KAFKA_CLUSTER_ID="$(kafka-storage random-uuid)"
+```
+
+```bash
+kafka-storage format -t $KAFKA_CLUSTER_ID -c ${CONFLUENT_HOME}/etc/kafka/kraft/server.properties
+```
+
+---
+
 ## Start Components
 
 ```bash
-zookeeper-server-start ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties
-
-kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties
+kafka-server-start ${CONFLUENT_HOME}/etc/kafka/kraft/server.properties
 
 schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
 ```
@@ -63,8 +72,7 @@ schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.prop
 ```bash
 vim ~/.bashrc
 
-alias zookeeper-start='zookeeper-server-start ${CONFLUENT_HOME}/etc/kafka/zookeeper.properties'
-alias kafka-start='kafka-server-start ${CONFLUENT_HOME}/etc/kafka/server.properties'
+alias kafka-start='kafka-server-start ${CONFLUENT_HOME}/etc/kafka/kraft/server.properties'
 alias schema-registry-start='schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties'
 
 source ~/.bashrc
@@ -75,41 +83,17 @@ source ~/.bashrc
 ## Systemctl Service
 
 ```bash
-sudo vim /etc/systemd/system/zookeeper.service
+sudo vim /etc/systemd/system/kafka.service
 
-# Zookeeper Service File
+# Kafka Service File
 [Unit]
-Description=Apache Zookeeper Server
+Description=Apache Kafka Server (KRaft)
 After=network.target
 
 [Service]
 User=srivatsan
 Group=srivatsan
-ExecStart=/opt/confluent-7.7.0/bin/zookeeper-server-start /opt/confluent-7.7.0/etc/kafka/zookeeper.properties
-ExecStop=/opt/confluent-7.7.0/bin/zookeeper-server-stop
-
-[Install]
-WantedBy=multi-user.target
-
-# Systemctl commands
-sudo systemctl daemon-reload
-sudo systemctl enable zookeeper
-sudo systemctl start zookeeper
-sudo systemctl status zookeeper
-```
-
-```bash
-sudo vim /etc/systemd/system/kafka.service
-
-# Kafka Service File
-[Unit]
-Description=Apache Kafka Server
-After=network.target zookeeper.service
-
-[Service]
-User=srivatsan
-Group=srivatsan
-ExecStart=/opt/confluent-7.7.0/bin/kafka-server-start /opt/confluent-7.7.0/etc/kafka/server.properties
+ExecStart=/opt/confluent-7.7.0/bin/kafka-server-start /opt/confluent-7.7.0/etc/kafka/kraft/server.properties
 ExecStop=/opt/confluent-7.7.0/bin/kafka-server-stop
 
 [Install]
@@ -128,7 +112,7 @@ sudo vim /etc/systemd/system/schema-registry.service
 # schema-registry Service File
 [Unit]
 Description=Kafka Schema Registry
-After=network.target zookeeper.service kafka.service
+After=network.target kafka.service
 
 [Service]
 User=srivatsan
