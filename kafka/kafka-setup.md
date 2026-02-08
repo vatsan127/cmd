@@ -193,7 +193,7 @@ sudo systemctl status connect
 ## Kafka UI
 
 ```bash
-docker run -dit --name kafka-ui -p 9000:8080 -v kafka-ui:/etc/kafkaui/ -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
+docker run -dit --name kafka-ui --network=host -v kafka-ui:/etc/kafkaui/ -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
 ```
 
 ---
