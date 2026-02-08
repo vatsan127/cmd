@@ -47,6 +47,35 @@ log.dirs=/tmp/kraft-combined-logs
 vim ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
 ```
 
+1. Kafka Connect Properties
+
+```bash
+vim ${CONFLUENT_HOME}/etc/kafka/connect-standalone.properties
+
+# add/update these properties
+bootstrap.servers=localhost:9092
+key.converter=org.apache.kafka.connect.storage.StringConverter
+value.converter=io.confluent.connect.avro.AvroConverter
+key.converter.schemas.enable=true
+value.converter.schemas.enable=true
+value.converter.schema.registry.url=http://localhost:8081
+offset.storage.file.filename=/tmp/connect.offsets
+offset.flush.interval.ms=10000
+plugin.path=/opt/confluent-7.7.0/share/java
+```
+
+---
+
+## Install Connector Plugins
+
+```bash
+confluent-hub install confluentinc/kafka-connect-jdbc:latest
+```
+
+```bash
+confluent-hub install confluentinc/kafka-connect-avro-converter:latest
+```
+
 ---
 
 ## Format KRaft Storage
@@ -157,34 +186,6 @@ sudo systemctl daemon-reload
 sudo systemctl enable connect
 sudo systemctl start connect
 sudo systemctl status connect
-```
-
----
-
-## Kafka Connect (Standalone)
-
-### Connect Properties
-
-```bash
-vim ${CONFLUENT_HOME}/etc/kafka/connect-standalone.properties
-
-# add these properties
-bootstrap.servers=localhost:9092
-key.converter=org.apache.kafka.connect.storage.StringConverter
-value.converter=io.confluent.connect.avro.AvroConverter
-value.converter.schema.registry.url=http://localhost:8081
-offset.storage.file.filename=/tmp/connect.offsets
-plugin.path=/opt/confluent-7.7.0/share/java
-```
-
-### Install Connector Plugins
-
-```bash
-confluent-hub install confluentinc/kafka-connect-jdbc:latest
-```
-
-```bash
-confluent-hub install confluentinc/kafka-connect-avro-converter:latest
 ```
 
 ---
