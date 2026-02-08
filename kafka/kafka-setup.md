@@ -63,10 +63,14 @@ kafka-storage format -t $KAFKA_CLUSTER_ID -c ${CONFLUENT_HOME}/etc/kafka/kraft/s
 
 ## Start Components
 
+Start in order: **Kafka → Schema Registry → Kafka Connect**
+
 ```bash
 kafka-server-start ${CONFLUENT_HOME}/etc/kafka/kraft/server.properties
 
 schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
+
+connect-standalone ${CONFLUENT_HOME}/etc/kafka/connect-standalone.properties <connector.properties>
 ```
 
 ```bash
@@ -74,6 +78,7 @@ vim ~/.bashrc
 
 alias kafka-start='kafka-server-start ${CONFLUENT_HOME}/etc/kafka/kraft/server.properties'
 alias schema-registry-start='schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties'
+alias connect-start='connect-standalone ${CONFLUENT_HOME}/etc/kafka/connect-standalone.properties'
 
 source ~/.bashrc
 ```
@@ -128,6 +133,58 @@ sudo systemctl daemon-reload
 sudo systemctl enable schema-registry
 sudo systemctl start schema-registry
 sudo systemctl status schema-registry
+```
+
+```bash
+sudo vim /etc/systemd/system/connect.service
+
+# Kafka Connect Service File
+[Unit]
+Description=Kafka Connect Standalone
+After=network.target kafka.service
+
+[Service]
+User=srivatsan
+Group=srivatsan
+ExecStart=/opt/confluent-7.7.0/bin/connect-standalone /opt/confluent-7.7.0/etc/kafka/connect-standalone.properties
+ExecStop=/bin/kill -TERM $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+
+#Systemctl commands
+sudo systemctl daemon-reload
+sudo systemctl enable connect
+sudo systemctl start connect
+sudo systemctl status connect
+```
+
+---
+
+## Kafka Connect (Standalone)
+
+### Connect Properties
+
+```bash
+vim ${CONFLUENT_HOME}/etc/kafka/connect-standalone.properties
+
+# add these properties
+bootstrap.servers=localhost:9092
+key.converter=org.apache.kafka.connect.storage.StringConverter
+value.converter=io.confluent.connect.avro.AvroConverter
+value.converter.schema.registry.url=http://localhost:8081
+offset.storage.file.filename=/tmp/connect.offsets
+plugin.path=/opt/confluent-7.7.0/share/java
+```
+
+### Install Connector Plugins
+
+```bash
+confluent-hub install confluentinc/kafka-connect-jdbc:latest
+```
+
+```bash
+confluent-hub install confluentinc/kafka-connect-avro-converter:latest
 ```
 
 ---

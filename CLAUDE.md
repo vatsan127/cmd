@@ -6,9 +6,10 @@ Personal DevOps/engineering cheat sheet repository. A collection of markdown ref
 
 ## Structure
 
-- Root-level `.md` files: Quick-reference cheat sheets (docker, git, k8s, kafka, linux)
+- Root-level `.md` files: Quick-reference cheat sheets (docker, git, k8s, linux)
+- `kafka/`: Kafka cheat sheet, Kafka Connect REST API reference, and Confluent Kafka setup guide (KRaft mode)
 - `postgres/`: PostgreSQL reference + sample employee database dump
-- `setup/`: Installation guides (Java 21, Maven, Git, Docker, PostgreSQL 17) and Kafka infrastructure configs (Confluent 7.7.0 bare-metal + Docker Compose with Confluent Platform 7.9.1)
+- `setup/`: Installation guides (Java 21, Maven, Git, Docker, PostgreSQL 17)
 
 ## Tech Stack Focus
 
