@@ -38,7 +38,7 @@ controller.quorum.voters=1@localhost:9093
 controller.listener.names=CONTROLLER
 listeners=PLAINTEXT://:9092,CONTROLLER://:9093
 advertised.listeners=PLAINTEXT://<Internal-IP>:9092
-log.dirs=/home/srivatsan/kafka-logs
+log.dir=/opt/confluent-7.7.0/kafka-storage
 ```
 
 1. Schema Registry Properties
@@ -59,7 +59,7 @@ value.converter=io.confluent.connect.avro.AvroConverter
 key.converter.schemas.enable=true
 value.converter.schemas.enable=true
 value.converter.schema.registry.url=http://localhost:8081
-offset.storage.file.filename=/home/srivatsan/kafka-logs/connect.offsets
+offset.storage.file.filename=/opt/confluent-7.7.0/kafka-storage/connect.offsets
 offset.flush.interval.ms=10000
 plugin.path=/opt/confluent-7.7.0/share/java
 ```
@@ -84,7 +84,7 @@ confluent-hub install confluentinc/kafka-connect-avro-converter:latest
 > Using a persistent `log.dirs` (not `/tmp`) ensures the formatted storage survives reboots.
 
 ```bash
-mkdir -p /home/srivatsan/kafka-logs
+mkdir -p /opt/confluent-7.7.0/kafka-storage
 export KAFKA_CLUSTER_ID="$(kafka-storage random-uuid)"
 ```
 
