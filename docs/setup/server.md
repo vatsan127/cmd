@@ -1,10 +1,14 @@
-### Install `.deb` Packages (Debian-based)
+# Server Setup
+
+Installation steps for a Debian-based development server.
+
+## Install `.deb` Packages (Debian-based)
 
 ```sh
 sudo dpkg -i <package_name>.deb
 ```
 
-### Install `.rpm` Packages using `alien`
+## Install `.rpm` Packages using `alien`
 
 ```sh
 sudo apt install alien
@@ -13,7 +17,7 @@ sudo alien -i <package_name>.rpm
 
 ---
 
-### Install Java (Oracle JDK 21)
+## Install Java (Oracle JDK 21)
 
 ```sh
 wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb
@@ -25,14 +29,13 @@ java --version
 
 ---
 
-### Install Maven
+## Install Maven
 
 ```sh
 wget https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz
 
 tar xvf apache-maven-3.9.11-bin.tar.gz
 sudo mv apache-maven-3.9.11 /opt/
-
 
 vim ~/.bashrc
 
@@ -44,7 +47,7 @@ source ~/.bashrc
 
 ---
 
-### Install Git
+## Install Git
 
 ```sh
 sudo apt install git-all
@@ -54,7 +57,7 @@ git --version
 
 ---
 
-### Install Docker
+## Install Docker
 
 ```sh
 curl -fsSL https://get.docker.com -o get-docker.sh
@@ -69,38 +72,28 @@ sudo systemctl start docker
 sudo systemctl status docker
 ```
 
-### Postgres installation
+---
 
-```
+## Install PostgreSQL 17
+
+```sh
 sudo apt install curl ca-certificates
-```
 
-```
 sudo install -d /usr/share/postgresql-common/pgdg
-```
 
-```
 sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
-```
 
-```
 sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-```
 
-```
 sudo apt update
-```
 
-```
 sudo apt -y install postgresql-17
 ```
 
-#### user setting
+### User setting
 
-```
+```sh
 sudo -i -u postgres
 psql -d postgres
 CREATE ROLE steve WITH LOGIN SUPERUSER PASSWORD 'password';
 ```
-
----

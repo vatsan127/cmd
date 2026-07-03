@@ -1,3 +1,7 @@
+# Kafka Setup (Confluent, KRaft)
+
+Setting up Confluent Platform 7.7.0 in KRaft mode (no ZooKeeper).
+
 ## Install Confluent Kafka 7.7.0
 
 ```bash
@@ -15,7 +19,7 @@ sudo mv confluent-7.7.0/ /opt/
 ```bash
 vim ~/.bashrc
 
-# add these in the end of the file
+# add these at the end of the file
 export CONFLUENT_HOME=/opt/confluent-7.7.0
 export PATH=$PATH:$CONFLUENT_HOME/bin
 
@@ -26,7 +30,7 @@ source ~/.bashrc
 
 ## Properties
 
-1. Kafka KRaft Properties
+### 1. Kafka KRaft Properties
 
 ```bash
 vim ${CONFLUENT_HOME}/etc/kafka/kraft/server.properties
@@ -38,16 +42,16 @@ controller.quorum.voters=1@localhost:9093
 controller.listener.names=CONTROLLER
 listeners=PLAINTEXT://:9092,CONTROLLER://:9093
 advertised.listeners=PLAINTEXT://<Internal-IP>:9092
-log.dir=/opt/confluent-7.7.0/kafka-storage
+log.dirs=/opt/confluent-7.7.0/kafka-storage
 ```
 
-1. Schema Registry Properties
+### 2. Schema Registry Properties
 
 ```bash
 vim ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties
 ```
 
-1. Kafka Connect Properties
+### 3. Kafka Connect Properties
 
 ```bash
 vim ${CONFLUENT_HOME}/etc/kafka/connect-standalone.properties
@@ -80,8 +84,10 @@ confluent-hub install confluentinc/kafka-connect-avro-converter:latest
 
 ## Format KRaft Storage (one-time only)
 
-> **Note:** This step is only needed during initial setup. Do NOT re-run on every reboot.
-> Using a persistent `log.dirs` (not `/tmp`) ensures the formatted storage survives reboots.
+!!! warning "Run once"
+    This step is only needed during initial setup. Do **not** re-run it on every
+    reboot. Using a persistent `log.dirs` (not `/tmp`) ensures the formatted
+    storage survives reboots.
 
 ```bash
 mkdir -p /opt/confluent-7.7.0/kafka-storage
@@ -106,6 +112,8 @@ schema-registry-start ${CONFLUENT_HOME}/etc/schema-registry/schema-registry.prop
 connect-standalone ${CONFLUENT_HOME}/etc/kafka/connect-standalone.properties <connector.properties>
 ```
 
+Optional aliases:
+
 ```bash
 vim ~/.bashrc
 
@@ -122,7 +130,9 @@ source ~/.bashrc
 
 ```bash
 sudo vim /etc/systemd/system/kafka.service
+```
 
+```ini
 # Kafka Service File
 [Unit]
 Description=Apache Kafka Server (KRaft)
@@ -136,8 +146,9 @@ ExecStop=/opt/confluent-7.7.0/bin/kafka-server-stop
 
 [Install]
 WantedBy=multi-user.target
+```
 
-#Systemctl commands
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable kafka
 sudo systemctl start kafka
@@ -146,7 +157,9 @@ sudo systemctl status kafka
 
 ```bash
 sudo vim /etc/systemd/system/schema-registry.service
+```
 
+```ini
 # schema-registry Service File
 [Unit]
 Description=Kafka Schema Registry
@@ -160,8 +173,9 @@ ExecStop=/opt/confluent-7.7.0/bin/schema-registry-stop
 
 [Install]
 WantedBy=multi-user.target
+```
 
-#Systemctl commands
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable schema-registry
 sudo systemctl start schema-registry
@@ -170,7 +184,9 @@ sudo systemctl status schema-registry
 
 ```bash
 sudo vim /etc/systemd/system/connect.service
+```
 
+```ini
 # Kafka Connect Service File
 [Unit]
 Description=Kafka Connect Standalone
@@ -184,8 +200,9 @@ ExecStop=/bin/kill -TERM $MAINPID
 
 [Install]
 WantedBy=multi-user.target
+```
 
-#Systemctl commands
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable connect
 sudo systemctl start connect
@@ -199,5 +216,3 @@ sudo systemctl status connect
 ```bash
 docker run -dit --name kafka-ui --network=host -v kafka-ui:/etc/kafkaui/ -e DYNAMIC_CONFIG_ENABLED=true provectuslabs/kafka-ui
 ```
-
----

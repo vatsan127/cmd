@@ -1,4 +1,22 @@
-# Default ignored files
+# Python / MkDocs
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# MkDocs build output
+site/
+
+# Env files
+.env
+.env.local
+
+# IDE
 /shelf/
 /workspace.xml
 /.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
