@@ -18,3 +18,16 @@
 .md-typeset__table {
   width: 100%;
 }
+
+/* Slightly larger base font. Material sizes body text, headings, tables and
+   admonitions in rem relative to this, so they all scale together. Default is
+   .8rem (~16px); .85rem is ~17px. */
+.md-typeset {
+  font-size: .85rem;
+}
+
+/* Keep code blocks and inline code in step with the larger body text. */
+.md-typeset code,
+.md-typeset pre > code {
+  font-size: .85em;
+}
